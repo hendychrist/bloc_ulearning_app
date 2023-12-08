@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/pages/sign_in/sign_in.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_blocs.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_events.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_states.dart';
@@ -152,13 +153,19 @@ class _WelcomeUIState extends State<WelcomeUI> {
 
                     if(index < 3){
 
-                      pageController.animateToPage(
+                      pageController.animateToPage( 
                         index,
                         duration: Duration(milliseconds: 500),
                         curve: Curves.decelerate
                       );
 
                     }else{
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
+                      
+                      Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (context) => SignIn()), 
+                                (route) => false,
+                              );
 
                     }
 
