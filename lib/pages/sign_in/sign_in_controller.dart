@@ -20,8 +20,16 @@ class SignInController{
         String emailAddress = state.email;
         String password = state.password;
 
-        if(emailAddress.isEmpty || password.isEmpty){
-          debugPrint('DEBUG : Error - sign_in_controllert.dart -> handleSignIn() : ${ (emailAddress.isEmpty) ? 'emailAddress is empty' : 'password is empty' }');
+        if(emailAddress.isEmpty){
+          debugPrint('DEBUG : Error - sign_in_controllert.dart -> handleSignIn() : emailAddress is empty ');
+        }else{
+          debugPrint('email is $emailAddress');
+        }
+
+        if( password.isEmpty){
+           debugPrint('DEBUG : Error - sign_in_controllert.dart -> handleSignIn() : password is empty');
+        }else{
+           debugPrint('password is $password');
         }
         
         try{

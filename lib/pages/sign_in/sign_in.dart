@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_events.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_state.dart';
+import 'package:ulearning_app/pages/sign_in/sign_in_controller.dart';
 import 'package:ulearning_app/pages/widget/sign_in_widget.dart';
 
 class SignIn extends StatefulWidget {
@@ -64,7 +65,7 @@ class _SignInState extends State<SignIn> {
                                     'Log In', 
                                     'login',
                                     (){
-                                      debugPrint('Login button');
+                                      SignInController(context: context).handleSignIn("email");
                                     }
                                     ),
 
@@ -72,7 +73,7 @@ class _SignInState extends State<SignIn> {
                                     'Register',
                                     'register',
                                      (){
-                                      debugPrint('Register Button');
+                                      debugPrint ('Register Button');
                                     }
                                   ),
 
