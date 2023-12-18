@@ -69,7 +69,7 @@ Widget reusableText(String text){
   );
 }
 
-Widget buildTextField(String hintText, String textType, String iconName){
+Widget buildTextField(String hintText, String textType, String iconName, void Function(String value)? func ){
   return Container(
     width: 325.w,
     height: 50.h,
@@ -93,6 +93,7 @@ Widget buildTextField(String hintText, String textType, String iconName){
           width: 280.w,
           height: 50.h,
           child: TextField(
+                  onChanged: (value) => func!(value),
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                                 hintText: hintText,
@@ -158,52 +159,55 @@ Widget forgotPassword(){
   );
 }
 
-Widget buildLogInAndRegButton(String buttonName, String buttonType){
-  return Container(
-    width: 325.w,
-    height: 50.h,
-    margin: EdgeInsets.only(
-                top: buttonType == 'login' 
-                      ? 
-                        40.h 
-                      : 
-                        20.h
-              ),
-    padding: EdgeInsets.only(left: 25.w, right: 25.w,),
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-                  color: buttonType == "login" 
-                          ?
-                            AppColors.primaryElement 
-                          :
-                            AppColors.primaryBackground,
-                  border: Border.all(
-                              color: buttonType == 'login' 
-                                      ?
-                                         Colors.transparent 
-                                      :
-                                         AppColors.primaryFourElementText
-                            ),
-                  borderRadius: BorderRadius.circular(15.w),
-                  boxShadow: [
-                    BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0,1),
-                      color: AppColors.primarySecondaryBackground,
-                    )
-                  ],
+Widget buildLogInAndRegButton(String buttonName, String buttonType, void Function()? func){
+  return GestureDetector(
+    onTap: func,
+    child: Container(
+      width: 325.w,
+      height: 50.h,
+      margin: EdgeInsets.only(
+                  top: buttonType == 'login' 
+                        ? 
+                          40.h 
+                        : 
+                          20.h
                 ),
-    child: Text(
-    '$buttonName',
-      style: TextStyle(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.normal,
-        color: buttonType == "login" 
-                ?
-                   AppColors.primaryBackground 
-                :
-                   AppColors.primaryText,
+      padding: EdgeInsets.only(left: 25.w, right: 25.w,),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+                    color: buttonType == "login" 
+                            ?
+                              AppColors.primaryElement 
+                            :
+                              AppColors.primaryBackground,
+                    border: Border.all(
+                                color: buttonType == 'login' 
+                                        ?
+                                           Colors.transparent 
+                                        :
+                                           AppColors.primaryFourElementText
+                              ),
+                    borderRadius: BorderRadius.circular(15.w),
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0,1),
+                        color: AppColors.primarySecondaryBackground,
+                      )
+                    ],
+                  ),
+      child: Text(
+      '$buttonName',
+        style: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.normal,
+          color: buttonType == "login" 
+                  ?
+                     AppColors.primaryBackground 
+                  :
+                     AppColors.primaryText,
+        ),
       ),
     ),
   );
