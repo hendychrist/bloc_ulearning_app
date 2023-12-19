@@ -121,12 +121,12 @@ Widget buildTextField(String hintText, String textType, String iconName, void Fu
 
                               ),
                   style: TextStyle(
-                    color: AppColors.primaryText,
-                    decorationColor: AppColors.primaryText,
-                    fontFamily: "Avenir",
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12.sp,
-                  ),
+                            color: AppColors.primaryText,
+                            decorationColor: AppColors.primaryText,
+                            fontFamily: "Avenir",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.sp,
+                          ),
                   autocorrect: false,
                   obscureText: textType == 'password' ? true : false,
           ),
