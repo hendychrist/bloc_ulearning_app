@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/pages/common_widget.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_events.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_state.dart';
 import 'package:ulearning_app/pages/sign_in/sign_in_controller.dart';
-import 'package:ulearning_app/pages/widget/sign_in_widget.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -17,6 +17,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +25,7 @@ class _SignInState extends State<SignIn> {
       builder: (context, state) {
         return Scaffold(
                 backgroundColor: Colors.white,
-                appBar: buildAppBar(),
+                appBar: buildAppBar("Log In"),
                 body: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -73,7 +74,7 @@ class _SignInState extends State<SignIn> {
                                     'Register',
                                     'register',
                                      (){
-                                      debugPrint ('Register Button');
+                                      Navigator.of(context).pushNamed("/register");
                                     }
                                   ),
 
@@ -88,4 +89,5 @@ class _SignInState extends State<SignIn> {
     );
   
   }
+
 }

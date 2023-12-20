@@ -20,7 +20,7 @@ class SignInController{
   //   return user!;
   // }
 
-  void handleSignIn(String type) async {
+  Future<void> handleSignIn(String type) async {
     try{ 
       if(type == "email"){
 
@@ -32,12 +32,14 @@ class SignInController{
 
         if(emailAddress.isEmpty){
           toastInfo(msg: "You need to fill Email Address");
+          return;
         }else{
           debugPrint('email is $emailAddress');
         }
 
         if( password.isEmpty){
            toastInfo(msg: "You need to fill Password");
+           return;
         }else{
            debugPrint('password is $password');
         }
@@ -48,44 +50,41 @@ class SignInController{
 
             if(credential.user == null){
               toastInfo(msg: "User doesn't exis");
-              // print('user doesn\'t exist');
+              return;
             }
  
             if(!credential.user!.emailVerified){
               toastInfo(msg: "You need to verify your email account");
-              // print('not verified');
+              return;
             }
 
           var user = credential.user;
-          
-          debugPrint("hendie - user : $user ");
 
             if(user != null){
-              // we got verified user from firebase 
               print('user exst');
-
-            }else{
-              // we have error getting user from firebase 
+              return;
+            }else{ 
               print('no user');
-              
+              return;
             }
  
         }on FirebaseAuthException catch (e){
 
-          if(e.code == 'user-not-found'){
-            print('No user found for that email');
+          if(e.code == 'user-not-found'){ 
+            toastInfo(msg: "No user found for that email");
           }else if(e.code == 'wrong-password'){
-            print('Wrong password provided for that user');
+            toastInfo(msg: "Wrong password provided for that user");
           }else if(e.code == 'invalid-email'){
             toastInfo(msg: "Your email address format is wrong");
+          }else{
+            toastInfo(msg: "${e.message}");
           }
 
           debugPrint("hendie - ");
           debugPrint("hendie - e : $e");
-          debugPrint("hendie - e : ${e.code}");
-          debugPrint("hendie - e : ${e.message}"); 
-          debugPrint("hendie - e : ${e.credential}"); 
-          debugPrint("hendie - e : ${e.email}"); 
+          debugPrint("hendie - code : ${e.code}");
+          debugPrint("hendie - message : ${e.message}"); 
+          debugPrint("hendie - credential : ${e.credential}"); 
           debugPrint("hendie - ");
 
           debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get credential : $e');
