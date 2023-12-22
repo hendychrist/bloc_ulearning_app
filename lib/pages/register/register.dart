@@ -5,6 +5,7 @@ import 'package:ulearning_app/pages/common_widget.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
 import 'package:ulearning_app/pages/register/bloc/register_events.dart';
 import 'package:ulearning_app/pages/register/bloc/register_states.dart';
+import 'package:ulearning_app/pages/register/register_controller.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -18,7 +19,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
 
-        return BlocBuilder<RegisterBloc, RegisterState>(
+    return BlocBuilder<RegisterBloc, RegisterState>(
       builder: (context, state) {
             return SafeArea(
               child: Scaffold(
@@ -88,7 +89,8 @@ class _RegisterState extends State<Register> {
                                     'Sign Up',
                                     'register',
                                      (){
-                                      Navigator.of(context).pushNamed("register");
+                                      RegisterController(context: context).handleEmailRegister();
+                                      // Navigator.of(context).pushNamed("register");
                                     }
                                   ),
                                   
