@@ -7,6 +7,7 @@ import 'package:ulearning_app/app_blocs.dart';
 import 'package:ulearning_app/app_events.dart';
 import 'package:ulearning_app/app_state.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/pages/application/application_page.dart';
 import 'package:ulearning_app/pages/bloc_providers.dart';
 import 'package:ulearning_app/pages/register/register.dart';
 import 'package:ulearning_app/pages/sign_in/sign_in.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
                                 backgroundColor: Colors.white,
                               )
                             ),
-                            home: WelcomeUI(),
+                            home: ApplicationPage(),
                             routes: {
                               // "/myHomePage": (context) => const MyHomePage(),
                               "/signIn": (context) => const SignIn(),

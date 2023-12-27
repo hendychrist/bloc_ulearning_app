@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,9 +60,11 @@ class SignInController{
           var user = credential.user;
 
             if(user != null){
+              toastInfo(msg: "User exist");
               print('user exst');
               return;
             }else{ 
+              toastInfo(msg: "No User");
               print('no user');
               return;
             }
