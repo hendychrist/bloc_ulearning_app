@@ -6,13 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/app_blocs.dart';
 import 'package:ulearning_app/app_events.dart';
 import 'package:ulearning_app/app_state.dart';
+import 'package:ulearning_app/common/routes/pages.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-import 'package:ulearning_app/pages/application/application_page.dart';
-import 'package:ulearning_app/pages/bloc_providers.dart';
-import 'package:ulearning_app/pages/register/register.dart';
-import 'package:ulearning_app/pages/sign_in/sign_in.dart';
-import 'package:ulearning_app/pages/welcome/welcome_ui.dart';
-// import 'package:ulearning_app/app_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
@@ -30,7 +25,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-              providers: AppBlocProvider.allBlocProvider,
+              // providers: AppBlocProvider.allBlocProvider,
+              providers: [...AppPages.allBlocProviders(context)],
               child: ScreenUtilInit(
                         builder: (context, child) {
                           return MaterialApp(
@@ -42,12 +38,15 @@ class MyApp extends StatelessWidget {
                                 backgroundColor: Colors.white,
                               )
                             ),
-                            home: ApplicationPage(),
+                            // home: const WelcomeUI(),
+                            onGenerateRoute: AppPages.generateRouteSettings,
+                            /*
                             routes: {
                               // "/myHomePage": (context) => const MyHomePage(),
                               "/signIn": (context) => const SignIn(),
                               "/register": (context) => const Register(),
                             },
+                            */
                           );
                         },
                       ),

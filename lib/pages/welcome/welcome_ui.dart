@@ -1,12 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-import 'package:ulearning_app/pages/sign_in/sign_in.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_blocs.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_events.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_states.dart';
@@ -163,13 +161,8 @@ class _WelcomeUIState extends State<WelcomeUI> {
                     }else{
                       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
                       
-                      Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => SignIn()), 
-                                (route) => false,
-                              );
-
+                      Navigator.of(context).pushNamedAndRemoveUntil("/sign_in",(route) => false,);
                     }
-
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 100.h, left: 25.w, right: 25.w),
