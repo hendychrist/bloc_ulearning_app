@@ -35,11 +35,11 @@ class _WelcomeUIState extends State<WelcomeUI> {
                   PageView(
                     controller: pageController,
                     onPageChanged: (index){
-                      BlocProvider.of<WelcomeBlocs>(context).add(WelcomeEvents());
-                      state.page = index;
-                      
-                      print('Hendie - hasil index : $index');
-                    },
+                                      BlocProvider.of<WelcomeBlocs>(context).add(WelcomeEvents());
+                                      state.page = index;
+                                      
+                                      // print('Hendie - hasil index : $index');
+                                    },
                     children: [
                       _page(
                         index: 1,
@@ -161,7 +161,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
                     }else{
                       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
                       
-                      Navigator.of(context).pushNamedAndRemoveUntil("/sign_in",(route) => false,);
+                      Navigator.of(context).pushNamedAndRemoveUntil("/sign_in", (route) => false,);
                     }
                   },
                   child: Container(

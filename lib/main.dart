@@ -1,14 +1,14 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/app_blocs.dart';
-import 'package:ulearning_app/app_events.dart';
-import 'package:ulearning_app/app_state.dart';
-import 'package:ulearning_app/common/routes/pages.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'common/routes/routes.dart';
+import 'pages/application/bloc/app_bloc.dart';
+import 'pages/application/bloc/app_states.dart';
 
 
 Future<void> main() async{
@@ -20,12 +20,10 @@ Future<void> main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-              // providers: AppBlocProvider.allBlocProvider,
               providers: [...AppPages.allBlocProviders(context)],
               child: ScreenUtilInit(
                         builder: (context, child) {
@@ -38,21 +36,11 @@ class MyApp extends StatelessWidget {
                                 backgroundColor: Colors.white,
                               )
                             ),
-                            // home: const WelcomeUI(),
                             onGenerateRoute: AppPages.generateRouteSettings,
-                            /*
-                            routes: {
-                              // "/myHomePage": (context) => const MyHomePage(),
-                              "/signIn": (context) => const SignIn(),
-                              "/register": (context) => const Register(),
-                            },
-                            */
                           );
                         },
                       ),
-
           );
-
   }
 }
 
@@ -70,7 +58,7 @@ class MyHomePage extends StatelessWidget {
       ),
 
       body:   Center(
-                  child: BlocBuilder<AppBlocs, AppStates>(
+                  child: BlocBuilder<AppBloc, AppState>(
                     builder: (context, state) {
                       return Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +69,7 @@ class MyHomePage extends StatelessWidget {
                                     ),
                                     Text(
                                       // '$_counter',
-                                      BlocProvider.of<AppBlocs>(context).state.counter.toString(), 
+                                      "BlocProvider.of<AppBloc>(context).state.counter.toString(), ",
                                       style: Theme.of(context).textTheme.headlineMedium,
                                     ),
                                   ],
@@ -98,14 +86,16 @@ class MyHomePage extends StatelessWidget {
 
                                   FloatingActionButton(
                                     heroTag: 'heroTag1',
-                                    onPressed: () => BlocProvider.of<AppBlocs>(context).add(Decrement()),
+                                    // onPressed: () => BlocProvider.of<AppBlocs>(context).add(Decrement()),
+                                    onPressed: null,
                                     tooltip: 'Decrement',
                                     child: const Icon(Icons.remove),
                                   ),
         
                                   FloatingActionButton(
                                     heroTag: 'heroTag2',
-                                    onPressed: () => BlocProvider.of<AppBlocs>(context).add(Increment()),
+                                    // onPressed: () => BlocProvider.of<AppBlocs>(context).add(Increment()),
+                                    onPressed: null,
                                     tooltip: 'Increment',
                                     child: const Icon(Icons.add),
                                   ),

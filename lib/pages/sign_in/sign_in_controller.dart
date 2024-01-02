@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +62,9 @@ class SignInController{
             if(user != null){
               toastInfo(msg: "User exist");
               print('user exst');
+
+              Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+              
               return;
             }else{ 
               toastInfo(msg: "No User");

@@ -72,7 +72,7 @@ class _SignInState extends State<SignIn> {
 
                                   buildLogInAndRegButton(
                                     'Register',
-                                    'register',
+                                    'register', 
                                      (){
                                       Navigator.of(context).pushNamed("/register");
                                     }
