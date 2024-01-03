@@ -11,3 +11,8 @@ class PasswordEvent extends SignInEvent{
   final String password;
   const PasswordEvent(this.password);
 }
+
+class IsLoadingEvent extends SignInEvent{
+  final bool isLoading;
+  const IsLoadingEvent(this.isLoading);
+}

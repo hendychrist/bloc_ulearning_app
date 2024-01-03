@@ -74,6 +74,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                     
                                   reusableText('Confirm password'),
+                                  
                                   buildTextField(
                                     "Re-enter your password to confirm",
                                      "password", 
@@ -84,15 +85,23 @@ class _RegisterState extends State<Register> {
                                   ),
                                     
                                   reusableText("Enter your details below & free sign up"),
+
+
+                                    buildLogInAndRegButton(
+                                      text: 'Sign Up',
+                                      onTap: () {
+                                        RegisterController(context: context).handleEmailRegister();
+                                      }, isLoading: false,
+                                    ),
                                   
-                                  buildLogInAndRegButton(
-                                    'Sign Up',
-                                    'register',
-                                     (){
-                                      RegisterController(context: context).handleEmailRegister();
-                                      // Navigator.of(context).pushNamed("register");
-                                    }
-                                  ),
+                                  // buildLogInAndRegButton(
+                                  //  text: 'Sign Up',
+                                  //   'register',
+                                  //    (){
+                                  //     RegisterController(context: context).handleEmailRegister();
+                                  //     // Navigator.of(context).pushNamed("register");
+                                  //   }
+                                  // ),
                                   
                                 ],
                               ),

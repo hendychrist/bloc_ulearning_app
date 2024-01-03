@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 
 AppBar buildAppBar(String type){
@@ -158,56 +159,68 @@ Widget forgotPassword(){
   );
 }
 
-Widget buildLogInAndRegButton(String buttonName, String buttonType, void Function()? func){
-  return GestureDetector(
-    onTap: func,
-    child: Container(
-      width: 325.w,
-      height: 50.h,
-      margin: EdgeInsets.only(
-                  top: buttonType == 'login' 
-                        ? 
-                          40.h 
-                        : 
-                          20.h
-                ),
-      padding: EdgeInsets.only(left: 25.w, right: 25.w,),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-                    color: buttonType == "login" 
-                            ?
-                              AppColors.primaryElement 
-                            :
-                              AppColors.primaryBackground,
-                    border: Border.all(
-                                color: buttonType == 'login' 
-                                        ?
-                                           Colors.transparent 
-                                        :
-                                           AppColors.primaryFourElementText
+Widget buildLogInAndRegButton({ required String text, required VoidCallback onTap,required bool isLoading,}){
+
+    return GestureDetector(
+              onTap: isLoading ? null : onTap,
+              child: Container(
+                        width: 325.w,
+                        height: 50.h,
+                        margin: EdgeInsets.only(top: (text == "Log In") ? 40.h : 20.h),
+                        padding: EdgeInsets.only(left: 25.w, right: 25.w),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                                      color:  text == "Log In"
+                                                        ?
+                                                          AppColors.primaryElement 
+                                                        :
+                                                          AppColors.primaryBackground,
+                                      border: Border.all(
+                                                color: text == "Log In"
+                                                            ?
+                                                                Colors.transparent 
+                                                            :
+                                                                AppColors.primaryFourElementText
+                                                ),
+                                        borderRadius: BorderRadius.circular(15.w),
+                                        boxShadow: [
+                                                    BoxShadow(
+                                                      spreadRadius: 1,
+                                                      blurRadius: 2,
+                                                      offset: Offset(0, 1),
+                                                      color: AppColors.primarySecondaryBackground,
+                                                    )
+                                                  ],
+                                      ),
+                        child: AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500),
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return ScaleTransition(scale: animation, child: child, alignment: Alignment.center);
+                          },
+                          child: isLoading
+                                    ? 
+                                      Lottie.asset(
+                                        'assets/animation/loading_dot_white.json',
+                                        repeat: true,
+                                        reverse: true,
+                                        animate: true,
+                                      )
+                                    : 
+                                      Text(
+                                        text,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.normal,
+                                            color:  text == "Log In"
+                                                      ?
+                                                        AppColors.primaryBackground 
+                                                      :
+                                                        AppColors.primaryText,
+                                        ),
+                                      ),
                               ),
-                    borderRadius: BorderRadius.circular(15.w),
-                    boxShadow: [
-                      BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: Offset(0,1),
-                        color: AppColors.primarySecondaryBackground,
-                      )
-                    ],
-                  ),
-      child: Text(
-      '$buttonName',
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.normal,
-          color: buttonType == "login" 
-                  ?
-                     AppColors.primaryBackground 
-                  :
-                     AppColors.primaryText,
-        ),
-      ),
-    ),
-  );
+                      ),
+            );
+    
+
 }

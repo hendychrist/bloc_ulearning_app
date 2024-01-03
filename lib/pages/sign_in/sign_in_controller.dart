@@ -19,7 +19,7 @@ class SignInController{
   //   return user!;
   // }
 
-  Future<void> handleSignIn(String type) async {
+  Future<String> handleSignIn(String type) async {
     try{ 
       if(type == "email"){
 
@@ -31,14 +31,14 @@ class SignInController{
 
         if(emailAddress.isEmpty){
           toastInfo(msg: "You need to fill Email Address");
-          return;
+          return 'You need to fill Email Address';
         }else{
           debugPrint('email is $emailAddress');
         }
 
         if( password.isEmpty){
            toastInfo(msg: "You need to fill Password");
-           return;
+           return 'You need to fill Password';
         }else{
            debugPrint('password is $password');
         }
@@ -48,57 +48,60 @@ class SignInController{
           final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailAddress, password: password);
 
             if(credential.user == null){
-              toastInfo(msg: "User doesn't exis");
-              return;
+              toastInfo(msg: "User doesn't exist");
+              return 'User doesn\'t exist';
             }
  
             if(!credential.user!.emailVerified){
               toastInfo(msg: "You need to verify your email account");
-              return;
+              return 'You need to verify your email account';
             }
 
           var user = credential.user;
 
             if(user != null){
               toastInfo(msg: "User exist");
-              print('user exst');
-
-              Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
               
-              return;
+              return 'user exist';
             }else{ 
               toastInfo(msg: "No User");
-              print('no user');
-              return;
+              
+              return 'No User';
             }
  
         }on FirebaseAuthException catch (e){
 
           if(e.code == 'user-not-found'){ 
             toastInfo(msg: "No user found for that email");
+            return 'No user found for that email';
           }else if(e.code == 'wrong-password'){
             toastInfo(msg: "Wrong password provided for that user");
+            return 'Wrong password provided for that user';
           }else if(e.code == 'invalid-email'){
             toastInfo(msg: "Your email address format is wrong");
+            return 'Your email address format is wrong';
           }else{
             toastInfo(msg: "${e.message}");
+            return '${e.message}';
           }
 
-          debugPrint("hendie - ");
-          debugPrint("hendie - e : $e");
-          debugPrint("hendie - code : ${e.code}");
-          debugPrint("hendie - message : ${e.message}"); 
-          debugPrint("hendie - credential : ${e.credential}"); 
-          debugPrint("hendie - ");
+          // debugPrint("hendie - ");
+          // debugPrint("hendie - e : $e");
+          // debugPrint("hendie - code : ${e.code}");
+          // debugPrint("hendie - message : ${e.message}"); 
+          // debugPrint("hendie - credential : ${e.credential}"); 
+          // debugPrint("hendie - ");
 
-          debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get credential : $e');
+          // debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get credential : $e');
         }
-
       }
-
+      return 'Unexpected error occurred during sign-in.';
     }catch(e){
       debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get state of SignInBloc : $e');
+      return 'DEBUG: ERROR - TRY CATCH $e';
     }
 
   }
+
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,12 +17,18 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
+
         return Scaffold(
                 backgroundColor: Colors.white,
                 appBar: buildAppBar("Log In"),
@@ -39,44 +45,60 @@ class _SignInState extends State<SignIn> {
                                   reusableText('Email'),
                                   SizedBox(height: 5.h),
 
-                                  buildTextField(
-                                    "Enter Your Email Address",
-                                     "email", 
-                                     "user", 
-                                    (value){
-                                      context.read<SignInBloc>().add(EmailEvent(value));
-                                    } 
+                                  AbsorbPointer(
+                                    absorbing: state.isLoading,
+                                    child: buildTextField(
+                                      "Enter Your Email Address",
+                                       "email", 
+                                       "user", 
+                                      (value){
+                                        context.read<SignInBloc>().add(EmailEvent(value));
+                                      } 
+                                    ),
                                   ),
         
                                   reusableText('Password'),
                                   SizedBox(height: 5.h),
 
-                                  buildTextField(
-                                    "Enter Your password",
-                                    "password",
-                                    "lock",
-                                    (value){
-                                      context.read<SignInBloc>().add(PasswordEvent(value));
-                                    } 
+                                  AbsorbPointer(
+                                    absorbing: state.isLoading,
+                                    child: buildTextField(
+                                      "Enter Your password",
+                                      "password",
+                                      "lock",
+                                      (value){
+                                        context.read<SignInBloc>().add(PasswordEvent(value));
+                                      } 
+                                    ),
                                   ),
                                   
                                   forgotPassword(),
 
                                   buildLogInAndRegButton(
-                                    'Log In', 
-                                    'login',
-                                    (){
-                                      SignInController(context: context).handleSignIn("email");
-                                    }
+                                      text: 'Log In',
+                                      isLoading: state.isLoading,
+                                      onTap: () async {
+                                          context.read<SignInBloc>().add(IsLoadingEvent(true));
+
+                                          SignInController(context: context).handleSignIn("email").then((value) => {
+                                                                        debugPrint('Hendie - return apa $value'),
+
+                                                                        if(value == 'user exist'){
+                                                                          Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false),
+                                                                        }else
+                                                                          context.read<SignInBloc>().add(IsLoadingEvent(false)),
+                                                                      });
+                                      },
                                     ),
 
-                                  buildLogInAndRegButton(
-                                    'Register',
-                                    'register', 
-                                     (){
-                                      Navigator.of(context).pushNamed("/register");
-                                    }
-                                  ),
+                                    buildLogInAndRegButton(
+                                      text: 'Register',
+                                      isLoading: false,
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed("/register");
+                                      }, 
+                                    ),
+
 
                                 ],
                               ),
