@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ulearning_app/common/routes/names.dart';
+import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/application/application_page.dart';
 import 'package:ulearning_app/pages/application/bloc/app_bloc.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
@@ -62,7 +63,19 @@ class AppPages{
       var result = routes().where((element) => element.route == settings.name);
 
       if(result.isNotEmpty){
-        print('Hendie - valid route name ${settings.name}');
+
+        // print('Hendie - settings.name : valid Route Name : ${settings.name}');
+        print('Hendie - result.first.route :  ${result.first.route}');
+        print('Hendie - AppRoutes.INITIAL : ${AppRoutes.INITIAL}');
+        
+        
+        bool deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
+        print('Hendie - ${result.first.route == AppRoutes.INITIAL} && deviceFirstOpen : $deviceFirstOpen');
+
+        if(result.first.route == AppRoutes.INITIAL && deviceFirstOpen){
+          return MaterialPageRoute(builder: (_) => const SignIn(), settings: settings);
+        }
+
         return MaterialPageRoute(builder: (_)=> result.first.page, settings: settings);
       }else{
         print('Hendie - result is empty : $result');
