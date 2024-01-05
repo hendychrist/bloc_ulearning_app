@@ -53,7 +53,7 @@ class _SignInState extends State<SignIn> {
                                        "user", 
                                       (value){
                                         context.read<SignInBloc>().add(EmailEvent(value));
-                                      } 
+                                      },
                                     ),
                                   ),
         
@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
                                       "lock",
                                       (value){
                                         context.read<SignInBloc>().add(PasswordEvent(value));
-                                      } 
+                                      },
                                     ),
                                   ),
                                   

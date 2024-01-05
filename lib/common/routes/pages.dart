@@ -63,18 +63,16 @@ class AppPages{
       var result = routes().where((element) => element.route == settings.name);
 
       if(result.isNotEmpty){
-
         // print('Hendie - settings.name : valid Route Name : ${settings.name}');
-        print('Hendie - result.first.route :  ${result.first.route}');
-        print('Hendie - AppRoutes.INITIAL : ${AppRoutes.INITIAL}');
-        
+        // print('Hendie - result.first.route :  ${result.first.route}');
+        // print('Hendie - AppRoutes.INITIAL : ${AppRoutes.INITIAL}');
         
         bool deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
-        print('Hendie - ${result.first.route == AppRoutes.INITIAL} && deviceFirstOpen : $deviceFirstOpen');
+          // print('Hendie - ${result.first.route == AppRoutes.INITIAL} && deviceFirstOpen : $deviceFirstOpen');
 
-        if(result.first.route == AppRoutes.INITIAL && deviceFirstOpen){
-          return MaterialPageRoute(builder: (_) => const SignIn(), settings: settings);
-        }
+          if(result.first.route == AppRoutes.INITIAL && deviceFirstOpen){
+            return  MaterialPageRoute(builder: (_) => const SignIn(), settings: settings);
+          }
 
         return MaterialPageRoute(builder: (_)=> result.first.page, settings: settings);
       }else{
