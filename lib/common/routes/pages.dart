@@ -4,6 +4,8 @@ import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/application/application_page.dart';
 import 'package:ulearning_app/pages/application/bloc/app_bloc.dart';
+import 'package:ulearning_app/pages/home/home_page.dart';
+import 'package:ulearning_app/pages/home/widgets/home_page_blocs.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
 import 'package:ulearning_app/pages/register/register.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
@@ -31,12 +33,15 @@ class AppPages{
         page: const Register(),
         bloc: BlocProvider<RegisterBloc>(create: (_) => RegisterBloc()),
       ),
-      
-      
       PageEntity(
         route: AppRoutes.APPLICATION,
         page: const ApplicationPage(),
         bloc: BlocProvider(create: (_) => AppBloc()),
+      ),    
+      PageEntity(
+        route: AppRoutes.HOME_PAGE,
+        page: const HomePage(),
+        bloc: BlocProvider(create: (_) => HomePageBlocs()),
       ),
       
 
@@ -63,17 +68,22 @@ class AppPages{
       var result = routes().where((element) => element.route == settings.name);
 
       if(result.isNotEmpty){
-        // print('Hendie - settings.name : valid Route Name : ${settings.name}');
-        // print('Hendie - result.first.route :  ${result.first.route}');
-        // print('Hendie - AppRoutes.INITIAL : ${AppRoutes.INITIAL}');
-        
         bool deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
-          // print('Hendie - ${result.first.route == AppRoutes.INITIAL} && deviceFirstOpen : $deviceFirstOpen');
 
+          // We check user booted up our app or not 
           if(result.first.route == AppRoutes.INITIAL && deviceFirstOpen){
+
+            // and then check user ever loggin or not 
+            bool isLoggedIn = Global.storageService.getIsLoggedIn();
+            if(isLoggedIn){ 
+              return MaterialPageRoute(builder: (_)=> const ApplicationPage(), settings: settings);
+            }
+
+            // if user didn't loginn to go sign in page
             return  MaterialPageRoute(builder: (_) => const SignIn(), settings: settings);
           }
 
+        // if user never open it go to onboarding screen
         return MaterialPageRoute(builder: (_)=> result.first.page, settings: settings);
       }else{
         print('Hendie - result is empty : $result');
