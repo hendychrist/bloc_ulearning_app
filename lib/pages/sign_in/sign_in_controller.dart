@@ -26,7 +26,7 @@ class SignInController{
       if(type == "email"){
 
         // final state = BlocProvider.of<SignInBloc>(context).state; // same way
-        final state = context.read<SignInBloc>().state; // same way
+        final state = context.read<SignInBloc>().state; // same way 
 
         String emailAddress = state.email;
         String password = state.password;

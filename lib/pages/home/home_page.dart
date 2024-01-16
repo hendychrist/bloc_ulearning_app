@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-import 'package:ulearning_app/pages/home/widgets/home_page_blocs.dart';
-import 'package:ulearning_app/pages/home/widgets/home_page_states.dart';
+import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
+import 'package:ulearning_app/pages/home/bloc/home_page_states.dart';
 import 'package:ulearning_app/pages/home/widgets/home_page_widgets.dart';
-
+ 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -71,12 +71,8 @@ class _HomePageState extends State<HomePage> {
                                                       return GestureDetector(
                                                         onTap: (){
                                                           
-                                                        },
-                                                        child: Container(
-                                                                  // width: 100,
-                                                                  // height: 100,
-                                                                  color: Colors.red,
-                                                                ),
+                                                        }, 
+                                                        child: courseGrid(),
                                                       );
                                                   }
                                                 ),

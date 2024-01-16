@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-import 'package:ulearning_app/pages/home/widgets/home_page_blocs.dart';
-import 'package:ulearning_app/pages/home/widgets/home_page_events.dart';
-import 'package:ulearning_app/pages/home/widgets/home_page_states.dart';
+import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
+import 'package:ulearning_app/pages/home/bloc/home_page_events.dart';
+import 'package:ulearning_app/pages/home/bloc/home_page_states.dart';
 
 AppBar buildAppBar(){
   return AppBar( 
@@ -21,7 +21,7 @@ AppBar buildAppBar(){
         Container(
           width: 15.w,
           height: 12.h,
-          color: Colors.yellow,
+          color: Colors.transparent,
           child: Image.asset("assets/icons/menu.png"),
         ),
 
@@ -31,7 +31,7 @@ AppBar buildAppBar(){
             width: 40.w,
             height: 40.w,
             decoration: const BoxDecoration(
-                          color: Colors.pink,
+                          color: Colors.transparent,
                           image: DecorationImage(
                                     image: AssetImage(
                                                 "assets/icons/person.png"
@@ -250,16 +250,14 @@ Widget _reusableText(
         FontWeight fontWeight = FontWeight.bold
       }
 ){
-  return  Container(
-              child: Text(
-                text,
-                style: TextStyle(
-                          color: color,
-                          fontWeight: fontWeight,
-                          fontSize: fontSize.sp
-                        ),
-              ),
-            );
+  return  Text(
+    text,
+    style: TextStyle(
+              color: color,
+              fontWeight: fontWeight,
+              fontSize: fontSize.sp
+            ),
+  );
 }
 
 Widget _reusableMenuText({String menuText = 'Default Text', Color backgroundColor = AppColors.primaryElement, Color textColor = AppColors.primaryElementText}){
@@ -273,4 +271,59 @@ Widget _reusableMenuText({String menuText = 'Default Text', Color backgroundColo
               padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 5.h, bottom: 5.h),
               child: _reusableText(menuText, color: textColor, fontWeight: FontWeight.normal, fontSize: 11),
             );
+}
+
+Widget courseGrid(){
+    return Container(
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.w),
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage(
+                  "assets/icons/Image(2).png"
+                )
+              )
+            ),
+            
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Container(
+                  child: Text(
+                    'Best course for IT and Engineering',
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                              color: AppColors.primaryElementText,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11.sp
+                            ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: 5.h,
+                ),
+
+                Container(
+                  child: Text(
+                    'Flutter best course',
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                              color: AppColors.primaryFourElementText,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 8.sp
+                            ),
+                  ),
+                ),
+
+              ],
+            ),
+          );
 }
