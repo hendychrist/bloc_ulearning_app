@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ulearning_app/common/values/constant.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:ulearning_app/common/apis/user_api.dart';
+import 'package:ulearning_app/common/entities/user.dart';
 import 'package:ulearning_app/common/widget/flutter_toast.dart';
-import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 
 class SignInController{
@@ -64,8 +65,29 @@ class SignInController{
             if(user != null){
               toastInfo(msg: "User exist");
 
-              Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
-              Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+              // Create a model from below information to database. and we should send json object
+              String? displayName = user.displayName;
+              String? email = user.email;
+              String? id = user.uid;
+              String? photoUrl = user.photoURL;
+
+              // Input value to model 
+              LoginRequestEntity loginRequestEntity = LoginRequestEntity();
+              loginRequestEntity.avatar = photoUrl;
+              loginRequestEntity.name = displayName;
+              loginRequestEntity.email = email;
+              loginRequestEntity.open_id = id;
+
+              // type one is email login 
+              loginRequestEntity.type = 1;
+
+              print("user open_id : $id");
+              print("user photoUrl : $photoUrl ");
+
+              asyncPostAllData(loginRequestEntity);
+
+              // Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
+              // Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
               
               // return 'user exist';
             }else{ 
@@ -87,6 +109,10 @@ class SignInController{
             return 'Your email address format is wrong';
           }else{
             toastInfo(msg: "${e.message}");
+
+            print('DEBUG: ERROR : on FirebaseAuthException catch (e)');
+            print('DEBUG: ${e.message}');
+
             return '${e.message}';
           }
 
@@ -105,6 +131,19 @@ class SignInController{
       debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get state of SignInBloc : $e');
       return 'DEBUG: ERROR - TRY CATCH $e';
     }
+
+  }
+
+  void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
+
+    // Show loading 
+    EasyLoading.show(
+      indicator: CircularProgressIndicator(),
+      maskType: EasyLoadingMaskType.clear,
+      dismissOnTap: true
+    );
+
+    // var result = await UserAPI.login(params: loginRequestEntity);
 
   }
 

@@ -82,7 +82,6 @@ class _SignInState extends State<SignIn> {
                                           context.read<SignInBloc>().add(IsLoadingEvent(true));
 
                                           SignInController(context: context).handleSignIn("email").then((value) => {
-                                                                        debugPrint('Hendie - return apa $value'),
 
                                                                         if(value == 'user exist'){
                                                                           Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false),
