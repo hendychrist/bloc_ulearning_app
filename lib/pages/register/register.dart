@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/pages/common_widget.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
@@ -86,12 +87,19 @@ class _RegisterState extends State<Register> {
                                     
                                   reusableText("Enter your details below & free sign up"),
 
-                                    buildLogInAndRegButton(
-                                      text: 'Sign Up',
-                                      onTap: () {
-                                        RegisterController(context: context).handleEmailRegister();
-                                      }, isLoading: false,
-                                    ),
+                                  buildLogInAndRegButton(
+                                    text: 'Sign Up',
+                                    onTap: () {
+                                          EasyLoading.show(
+                                              indicator: CircularProgressIndicator(),
+                                              maskType: EasyLoadingMaskType.clear,
+                                              dismissOnTap: true
+                                            );
+
+                                      RegisterController(context: context).handleEmailRegister();
+                                    },
+                                       isLoading: false,
+                                  ),
                                   
                                   // buildLogInAndRegButton(
                                   //  text: 'Sign Up',

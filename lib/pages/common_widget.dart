@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 
 AppBar buildAppBar(String type){
@@ -197,7 +196,9 @@ Widget buildLogInAndRegButton({ required String text, required VoidCallback onTa
                           transitionBuilder: (Widget child, Animation<double> animation) {
                             return ScaleTransition(scale: animation, child: child, alignment: Alignment.center);
                           },
-                          child: isLoading
+                          child: 
+                              /*
+                              isLoading
                                     ? 
                                       Lottie.asset(
                                         'assets/animation/loading_dot_white.json',
@@ -206,6 +207,7 @@ Widget buildLogInAndRegButton({ required String text, required VoidCallback onTa
                                         animate: true,
                                       )
                                     : 
+                                    */
                                       Text(
                                         text,
                                         style: TextStyle(

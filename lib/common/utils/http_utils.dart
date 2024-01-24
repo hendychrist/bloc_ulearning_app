@@ -16,8 +16,8 @@ class HttpUtil{
     BaseOptions options = BaseOptions(
                               // baseUrl: "http://127.0.0.1:8000",
                               baseUrl: AppConstants.SERVER_API_URL,
-                              connectTimeout: Duration(seconds: 300),      
-                              receiveTimeout: Duration(seconds: 300), // waiting for response after getting connection
+                              connectTimeout: Duration(seconds: 30),      
+                              receiveTimeout: Duration(seconds: 30), // waiting for response after getting connection
                               headers: {},
                               contentType: "application/json: charset=utf-8",
                               responseType: ResponseType.json
@@ -32,7 +32,8 @@ class HttpUtil{
                                 queryParameters: queryParameters,
                             );
 
-    print("DEBUG: http_utils.dart -> post() -> my response data is : ${response.toString()}");
+    print("DEBUG: http_utils.dart -> post() -> RESPONSE : ${response.toString()}");
+    print("DEBUG: http_utils.dart -> post() -> STATUS CODE : ${response.statusCode}");
 
     // return object  
     return response.data;

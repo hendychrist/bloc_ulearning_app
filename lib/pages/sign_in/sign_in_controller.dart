@@ -1,11 +1,16 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ulearning_app/common/apis/user_api.dart';
 // import 'package:ulearning_app/common/apis/user_api.dart';
 import 'package:ulearning_app/common/entities/user.dart';
+import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/flutter_toast.dart';
+import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 
 class SignInController{
@@ -15,10 +20,8 @@ class SignInController{
 
   //  Future<User> performSignIn(String email, String password) async {
   //   final FirebaseAuth auth = FirebaseAuth.instance;
-
   //   UserCredential result = await auth.signInWithEmailAndPassword(email: email, password: password);
   //   final User? user = result.user;
-
   //   return user!;
   // }
 
@@ -81,13 +84,7 @@ class SignInController{
               // type one is email login 
               loginRequestEntity.type = 1;
 
-              print("user open_id : $id");
-              print("user photoUrl : $photoUrl ");
-
               asyncPostAllData(loginRequestEntity);
-
-              // Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
-              // Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
               
               // return 'user exist';
             }else{ 
@@ -136,14 +133,24 @@ class SignInController{
 
   void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
 
-    // Show loading 
-    EasyLoading.show(
-      indicator: CircularProgressIndicator(),
-      maskType: EasyLoadingMaskType.clear,
-      dismissOnTap: true
-    );
+    var result = await UserAPI.login(params: loginRequestEntity);
+    debugPrint('Hendie - result : $result');
 
-    // var result = await UserAPI.login(params: loginRequestEntity);
+    if(result.code == 200){
+
+      try{
+        Global.storageService.setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.data));
+        Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
+        EasyLoading.dismiss();
+        Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+      }catch(e){
+        debugPrint('Saving local storage error : ');
+      }
+
+    }else{
+      EasyLoading.dismiss();
+      toastInfo(msg: "UserAPI.login return != 200");
+    }
 
   }
 

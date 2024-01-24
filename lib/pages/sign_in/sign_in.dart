@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/pages/common_widget.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
@@ -79,6 +80,14 @@ class _SignInState extends State<SignIn> {
                                       text: 'Log In',
                                       isLoading: state.isLoading,
                                       onTap: () async {
+
+                                          // Show loading 
+                                          EasyLoading.show(
+                                            indicator: CircularProgressIndicator(),
+                                            maskType: EasyLoadingMaskType.clear,
+                                            dismissOnTap: true
+                                          );
+
                                           context.read<SignInBloc>().add(IsLoadingEvent(true));
 
                                           SignInController(context: context).handleSignIn("email").then((value) => {
