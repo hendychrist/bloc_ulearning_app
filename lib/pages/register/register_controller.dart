@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ulearning_app/common/values/constant.dart';
-// import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/flutter_toast.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
 
@@ -43,14 +41,13 @@ class RegisterController{
       }
       
       try{
-
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
         if(credential.user != null){
           await credential.user?.sendEmailVerification();
           await credential.user?.updateDisplayName(username);
 
-          String photoUrl = "${AppConstants.SERVER_API_URL}uploads/default.png";
+          String photoUrl = "uploads/default.png";
           await credential.user?.updatePhotoURL(photoUrl);
 
           EasyLoading.dismiss();

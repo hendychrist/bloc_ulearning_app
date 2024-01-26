@@ -91,12 +91,11 @@ class _SignInState extends State<SignIn> {
                                           context.read<SignInBloc>().add(IsLoadingEvent(true));
 
                                           SignInController(context: context).handleSignIn("email").then((value) => {
-
-                                                                        if(value == 'user exist'){
-                                                                          Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false),
-                                                                        }else
-                                                                          context.read<SignInBloc>().add(IsLoadingEvent(false)),
-                                                                      });
+                                                  if(value == 'user exist'){
+                                                    Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false),
+                                                  }else
+                                                    context.read<SignInBloc>().add(IsLoadingEvent(false)),
+                                                });
                                       },
                                     ),
 

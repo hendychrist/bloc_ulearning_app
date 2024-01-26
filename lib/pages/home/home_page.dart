@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, unnecessary_null_comparison
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_states.dart';
+import 'package:ulearning_app/pages/home/home_controller.dart';
 import 'package:ulearning_app/pages/home/widgets/home_page_widgets.dart';
  
 class HomePage extends StatefulWidget {
@@ -17,12 +18,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> { 
+  late HomeController _homeController;
+
+  @override
+  void initState(){
+    super.initState();
+    _homeController = HomeController(context: context);
+    _homeController.init();
+
+    debugPrint('Hendie - _homeController.userProfile.avatar : ${_homeController.userProfile.avatar}');
+    debugPrint('Hendie -  _homeController.userProfile.name : ${_homeController.userProfile.name}');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    
+   return _homeController.userProfile != null
+    ?
+     SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(),
+        appBar: buildAppBar(avatar: _homeController.userProfile.avatar!.toString()),
         body: BlocBuilder<HomePageBlocs, HomePageStates>(
           builder: (context, state) {
 
@@ -38,7 +54,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       
                         SliverToBoxAdapter(
-                          child: homePageText('Hendy', top: 0, bot: 20)
+                          child: homePageText(
+                                  _homeController.userProfile.name ?? "name is empty",
+                                  top: 0,
+                                  bot: 20
+                                )
                         ),
 
                         SliverToBoxAdapter(
@@ -86,7 +106,12 @@ class _HomePageState extends State<HomePage> {
           }
         ),
       ),
-    );
-
+    )
+    :
+      Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
   }
 }

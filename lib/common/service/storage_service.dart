@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ulearning_app/common/entities/user.dart';
 import 'package:ulearning_app/common/values/constant.dart';
+import 'package:ulearning_app/common/widget/flutter_toast.dart';
 
 class StorageService{
   late final SharedPreferences _prefs;
@@ -29,5 +33,21 @@ class StorageService{
   Future<bool> remove(String key){
     return _prefs.remove(key);
   }
+
+  UserItem getUserProfile(){
+    var profileOffline = _prefs.getString(AppConstants.STORAGE_USER_PROFILE_KEY) ?? "";
+    
+    if(profileOffline.isNotEmpty){
+      return UserItem.fromJson(jsonDecode(profileOffline));
+    }else{
+      toastInfo(msg: "profileOffline is empty");
+    }
+    return UserItem();
+  }
+
+  getUserToken(){
+    return _prefs.getString(AppConstants.STORAGE_USER_TOKEN_KEY) ?? "";
+  }
+
 
 }

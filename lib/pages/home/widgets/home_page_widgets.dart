@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/base_text_widget.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_events.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_states.dart';
 
-AppBar buildAppBar(){
+AppBar buildAppBar({required String avatar}){
+  String photo = "${AppConstants.SERVER_API_URL}$avatar";
+
   return AppBar( 
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,12 +34,13 @@ AppBar buildAppBar(){
           child: Container(
             width: 40.w,
             height: 40.w,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                           color: Colors.transparent,
                           image: DecorationImage(
-                                    image: AssetImage(
-                                                "assets/icons/person.png"
-                                              )
+                                    image: NetworkImage(photo),
+                                      //  AssetImage(
+                                      //           "assets/icons/person.png"
+                                      //         )
                                   )
                         ),
           ),

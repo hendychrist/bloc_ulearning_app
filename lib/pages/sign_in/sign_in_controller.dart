@@ -132,15 +132,20 @@ class SignInController{
   }
 
   void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
-
     var result = await UserAPI.login(params: loginRequestEntity);
-    debugPrint('Hendie - result : $result');
 
+    
+    String returnAccessToken = result.data!.access_token.toString();
+    print("Hendie - returnAccessToken : ${result.data!.access_token}");
+    
     if(result.code == 200){
 
       try{
         Global.storageService.setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.data));
-        Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
+        
+        // used for authorization, that's why we save it.
+        Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, returnAccessToken); // disini
+
         EasyLoading.dismiss();
         Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
       }catch(e){
