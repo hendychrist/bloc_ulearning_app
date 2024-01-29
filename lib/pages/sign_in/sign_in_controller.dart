@@ -147,7 +147,13 @@ class SignInController{
         Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, returnAccessToken); // disini
 
         EasyLoading.dismiss();
-        Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+
+        if(context.mounted){
+          Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+        }else{
+          toastInfo(msg: 'sign_in_controller.dart -> 154 -> context not mounted');
+        }
+        
       }catch(e){
         debugPrint('Saving local storage error : ');
       }

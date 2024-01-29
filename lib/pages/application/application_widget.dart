@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,16 +7,27 @@ import 'package:ulearning_app/pages/home/home_page.dart';
 import 'package:ulearning_app/pages/profile/profile.dart';
 
 Widget buildPage(int index){
+  
+  List<Widget> bottomPage = [
+                const HomePage(),
+                Center(child: Text('Search')),
+                Center(child: Text('Course')),
+                Center(child: Text('Chat')),
+                const ProfilePage(),
+              ];
 
-  List<Widget> _widget = [
-    HomePage(),
-    Center(child: Text('Search')),
-    Center(child: Text('Course')),
-    Center(child: Text('Chat')),
-    const ProfilePage(),
-  ];
+    if (index == null) {
+      // Handle the case where index is null
+      return Center(child: Text('Invalid Index is null'));
+    }
 
-  return _widget[index];
+    if (index >= 0 && index < bottomPage.length) {
+      return bottomPage[index];
+    } else {
+      // Handle the case where the index is invalid (out of bounds)
+      return Center(child: Text('Invalid Page'));
+    }
+
 }
 
 var bottomTabs = [

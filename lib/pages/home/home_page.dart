@@ -38,9 +38,14 @@ class _HomePageState extends State<HomePage> {
      SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(avatar: _homeController.userProfile.avatar!.toString()),
+        appBar: buildAppBar(avatar: _homeController.userProfile.avatar.toString()),
         body: BlocBuilder<HomePageBlocs, HomePageStates>(
           builder: (context, state) {
+            
+            debugPrint('Hendie -');
+            debugPrint('Hendie - Home_page');
+            debugPrint("Hendie - ${state.courseItem[0].price }");
+            debugPrint('Hendie -');
 
             return Container(
                     color: Colors.transparent,
@@ -86,13 +91,13 @@ class _HomePageState extends State<HomePage> {
                                                     childAspectRatio: 1.6
                                                   ),
                                     delegate: SliverChildBuilderDelegate(
-                                                  childCount: 4,
+                                                  childCount: state.courseItem.length,
                                                   (BuildContext context, int index){
                                                       return GestureDetector(
                                                         onTap: (){
                                                           
                                                         }, 
-                                                        child: courseGrid(),
+                                                        child: courseGrid(state.courseItem[index]),
                                                       );
                                                   }
                                                 ),

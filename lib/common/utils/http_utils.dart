@@ -71,9 +71,9 @@ class HttpUtil{
       ),
     );
 
-    print("DEBUG: http_utils.dart -> post() -> RESPONSE : ${response.toString()}");
     print("DEBUG: http_utils.dart -> post() -> STATUS  CODE : ${response.statusCode}");
-
+    print("DEBUG: http_utils.dart -> post() -> RESPONSE : ${response.toString()}");
+    
     // return object  
     return response.data;
   }

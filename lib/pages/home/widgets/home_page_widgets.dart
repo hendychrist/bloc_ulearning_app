@@ -5,6 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/common/entities/entities.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/base_text_widget.dart';
@@ -261,16 +262,14 @@ Widget _reusableMenuText({String menuText = 'Default Text', Color backgroundColo
             );
 }
 
-Widget courseGrid(){
+Widget courseGrid(CourseItem item){
     return Container(
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.w),
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage(
-                  "assets/icons/Image(2).png"
-                )
+                image:  NetworkImage(item.thumbnail.toString()),
               )
             ),
             
@@ -281,7 +280,7 @@ Widget courseGrid(){
 
                 Container(
                   child: Text(
-                    'Best course for IT and Engineering',
+                    item.name ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.fade,
                     textAlign: TextAlign.left,
@@ -299,7 +298,7 @@ Widget courseGrid(){
 
                 Container(
                   child: Text(
-                    'Flutter best course',
+                    item.description ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.fade,
                     textAlign: TextAlign.left,
