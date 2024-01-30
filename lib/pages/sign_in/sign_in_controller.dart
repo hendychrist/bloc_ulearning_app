@@ -11,6 +11,7 @@ import 'package:ulearning_app/common/entities/user.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/flutter_toast.dart';
 import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/pages/home/home_controller.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 
 class SignInController{
@@ -84,8 +85,12 @@ class SignInController{
               // type one is email login 
               loginRequestEntity.type = 1;
 
-              asyncPostAllData(loginRequestEntity);
-              
+              if(context.mounted){
+                 HomeController(context: context).init();
+              }
+
+              await asyncPostAllData(loginRequestEntity);
+
               // return 'user exist';
             }else{ 
               toastInfo(msg: "No User");
@@ -131,7 +136,7 @@ class SignInController{
 
   }
 
-  void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
+  Future<void> asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
     var result = await UserAPI.login(params: loginRequestEntity);
 
     
