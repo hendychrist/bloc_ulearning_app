@@ -137,37 +137,35 @@ class SignInController{
   }
 
   Future<void> asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
-    var result = await UserAPI.login(params: loginRequestEntity);
+  var result = await UserAPI.login(params: loginRequestEntity);
 
-    
-    String returnAccessToken = result.data!.access_token.toString();
-    print("Hendie - returnAccessToken : ${result.data!.access_token}");
-    
-    if(result.code == 200){
+  String returnAccessToken = result.data!.access_token.toString();
+  print("Hendie - returnAccessToken : ${result.data!.access_token}");
 
-      try{
-        Global.storageService.setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.data));
-        
-        // used for authorization, that's why we save it.
-        Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, returnAccessToken); // disini
+  if (result.code == 200) {
+    try {
+      Global.storageService.setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.data));
 
-        EasyLoading.dismiss();
+      print('......my token is | ${result.data!.access_token!}.......');
 
-        if(context.mounted){
-          Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
-        }else{
-          toastInfo(msg: 'sign_in_controller.dart -> 154 -> context not mounted');
-        }
-        
-      }catch(e){
-        debugPrint('Saving local storage error : ');
-      }
+      // used for authorization, that's why we save it.
+      Global.storageService.setString(AppConstants.STORAGE_USER_TOKEN_KEY, returnAccessToken);
 
-    }else{
       EasyLoading.dismiss();
-      toastInfo(msg: "UserAPI.login return != 200");
-    }
 
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil("/application", (route) => false);
+      } else {
+        toastInfo(msg: 'sign_in_controller.dart -> 154 -> context not mounted');
+      }
+    } catch (e) {
+      debugPrint('Saving local storage error : $e');
+    }
+  } else {
+    EasyLoading.dismiss();
+    toastInfo(msg: "UserAPI.login return != 200");
   }
+}
+
 
 }

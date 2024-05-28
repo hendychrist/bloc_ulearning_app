@@ -38,11 +38,12 @@ class CourseListResponseEntity {
       CourseListResponseEntity(
         code: json["code"],
         msg: json["msg"],
-        data: json["data"] == null ? [] : List<CourseItem>.from(json["data"].map((x) => CourseItem.fromJson(x))),
+        data: json["data"] == null 
+            ? [] 
+            : List<CourseItem>.from(json["data"].map((x) => CourseItem.fromJson(x))),
       );
 }
 
-//api post response msg
 class CourseDetailResponseEntity {
   int? code;
   String? msg;
@@ -58,11 +59,9 @@ class CourseDetailResponseEntity {
       CourseDetailResponseEntity(
         code: json["code"],
         msg: json["msg"],
-        data: CourseItem.fromJson(json["data"]),
+        data: json["data"] != null ? CourseItem.fromJson(json["data"]) : null,
       );
 }
-
-
 
 class AuthorRequestEntity {
   String? token;
@@ -96,8 +95,6 @@ class AuthorResponseEntity {
 }
 
 
-
-// login result
 class AuthorItem {
   String? token;
   String? name;
@@ -148,8 +145,6 @@ class AuthorItem {
 
 }
 
-
-// login result
 class CourseItem {
   String? user_token;
   String? name;
@@ -159,10 +154,7 @@ class CourseItem {
   String? price;
   String? amount_total;
   int? lesson_num;
-  int? video_len;
-  int? down_num;
-  int? follow;
-  int? score;
+  int? video_length;
   int? id;
 
   CourseItem({
@@ -174,15 +166,11 @@ class CourseItem {
     this.price,
     this.amount_total,
     this.lesson_num,
-    this.video_len,
-    this.down_num,
-    this.follow,
-    this.score,
+    this.video_length,
     this.id,
   });
 
-  factory CourseItem.fromJson(Map<String, dynamic> json) =>
-      CourseItem(
+  factory CourseItem.fromJson(Map<String, dynamic> json) => CourseItem(
         user_token: json["user_token"],
         name: json["name"],
         description: json["description"],
@@ -191,28 +179,21 @@ class CourseItem {
         price: json["price"].toString(),
         amount_total: json["amount_total"],
         lesson_num: json["lesson_num"],
-        video_len: json["video_len"],
-        down_num: json["down_num"],
-        follow: json["follow"],
-        score: json["score"],
+        video_length: json["video_length"],
         id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-    "user_token": user_token,
-    "name": name,
-    "description": description,
-    "thumbnail": thumbnail,
-    "video": video,
-    "price": price,
-    "amount_total": amount_total,
-    "lesson_num": lesson_num,
-    "video_len": video_len,
-    "down_num": down_num,
-    "follow": follow,
-    "score": score,
-    "id": id,
-  };
-
+        "user_token": user_token,
+        "name": name,
+        "description": description,
+        "thumbnail": thumbnail,
+        "video": video,
+        "price": price,
+        "amount_total": amount_total,
+        "lesson_num": lesson_num,
+        "video_length": video_length,
+        "id": id,
+      };
 }
 

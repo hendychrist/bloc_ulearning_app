@@ -45,12 +45,13 @@ class UserLoginResponseEntity {
     this.data,
   });
 
-  factory UserLoginResponseEntity.fromJson(Map<String, dynamic> json) =>
-      UserLoginResponseEntity(
-        code: json["code"],
-        msg: json["msg"],
-        data: UserItem.fromJson(json["data"]),
-      );
+  factory UserLoginResponseEntity.fromJson(Map<String, dynamic> json) {
+    return UserLoginResponseEntity(
+      code: json["code"],
+      msg: json["msg"],
+      data: json["data"] != null ? UserItem.fromJson(json["data"]) : null,
+    );
+  }
 }
 
 
@@ -74,16 +75,17 @@ class UserItem {
     this.type,
   });
 
-  factory UserItem.fromJson(Map<String, dynamic> json) =>
-      UserItem(
-        access_token: json["access_token"],
-        token: json["token"],
-        name: json["name"],
-        description: json["description"],
-        avatar: json["avatar"],
-        online: json["online"],
-        type: json["type"],
-      );
+  factory UserItem.fromJson(Map<String, dynamic> json) {
+    return UserItem(
+      access_token: json["access_token"],
+      token: json["token"],
+      name: json["name"],
+      description: json["description"],
+      avatar: json["avatar"],
+      online: json["online"],
+      type: json["type"] is String ? int.parse(json["type"]) : json["type"],  // Convert type to int
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "access_token": access_token,
