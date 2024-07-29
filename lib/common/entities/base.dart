@@ -2,7 +2,7 @@
 class BaseResponseEntity {
   int? code;
   String? msg;
-  String? data;
+  dynamic data;
 
   BaseResponseEntity({
     this.code,
@@ -18,9 +18,9 @@ class BaseResponseEntity {
       );
 
   Map<String, dynamic> toJson() => {
-    "counts": code ,
-    "msg": msg ,
-    "items": data,
+      "code": code,
+      "msg": msg,
+      "data": data,
   };
 }
 

@@ -1,13 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ulearning_app/pages/course/course_detail/bloc/course_detail_events.dart';
-import 'package:ulearning_app/pages/course/course_detail/bloc/course_detail_states.dart';
+
+import 'course_detail_events.dart';
+import 'course_detail_states.dart';
+
 
 class CourseDetailBlocs extends Bloc<CourseDetailEvents, CourseDetailStates>{
-  CourseDetailBlocs(): super(const CourseDetailStates()){
-    on<TriggerCourseDetailEvent>(_triggerCourseDetail);
+  CourseDetailBlocs():super(const CourseDetailStates()){
+    on<TriggerCourseDetail>(_triggerCourseDetail);
+    on<TriggerLessonList>(_triggerLessonList);
+    on<TriggerCheckBuy>(_triggerCheckBuy);
   }
-
-  void _triggerCourseDetail(TriggerCourseDetailEvent event, Emitter<CourseDetailStates> emit){
+  void _triggerCourseDetail(TriggerCourseDetail event, Emitter<CourseDetailStates>emit){
     emit(state.copyWith(courseItem: event.courseItem));
   }
+
+  void _triggerLessonList(TriggerLessonList event, Emitter<CourseDetailStates>emit){
+    emit(state.copyWith(lessonItem:event.lessonItem));
+  }
+  void _triggerCheckBuy(TriggerCheckBuy event, Emitter<CourseDetailStates>emit){
+    emit(state.copyWith(checkBuy: event.checkBuy));
+  }
+
 }

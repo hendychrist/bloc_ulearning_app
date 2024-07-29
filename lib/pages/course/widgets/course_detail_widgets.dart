@@ -1,15 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:ulearning_app/common/widget/base_text_widget.dart';
 import 'package:ulearning_app/pages/course/course_detail/bloc/course_detail_states.dart';
 
-AppBar buildAppBarCourse(){
+AppBar buildAppBar({required String text}){
   return AppBar(
     centerTitle: true,
-    title: reusableText("Course Detail")
+    title: reusableText(text)
   );
+}
+
+String processThumbnailUrl(String url) {
+  if (url.contains('firebasestorage')) {
+    return url.replaceFirst('http://10.64.66.167:8000/uploads/', '');
+  }
+
+  debugPrint('Hendie - url : $url');
+  return url;
 }
 
 Widget thumbnail({required CourseDetailStates courseDetailStates}) {
@@ -17,10 +27,11 @@ Widget thumbnail({required CourseDetailStates courseDetailStates}) {
     width: 325.w,
     height: 200.h,
     decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20.w),
       image: (courseDetailStates.courseItem != null && courseDetailStates.courseItem!.thumbnail != null)
               ? 
                 DecorationImage(
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.fitHeight,
                   image: NetworkImage(courseDetailStates.courseItem!.thumbnail!), 
                 )
               :
@@ -51,7 +62,7 @@ Widget menuView(){
             ),
             child: reusableText(
                       "Author Page",
-                      color: AppColors.primaryElementText,
+                      color: AppColors.primaryBackground,
                       fontWeight: FontWeight.normal,
                       fontSize: 10.sp
                     )
@@ -97,14 +108,14 @@ Widget goBuyButton(String name){
             alignment: Alignment.center,
             decoration: BoxDecoration(
                           color: AppColors.primaryElement,
-                          borderRadius: BorderRadiusDirectional.circular(10.w),
+                          borderRadius: BorderRadiusDirectional.circular(15.w),
                           border: Border.all(color: AppColors.primaryElement)
                         ),
             child: Text(
                       name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                                color: AppColors.primaryThirdElementText,
+                                color: AppColors.primaryBackground,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.normal
                               ),
@@ -128,13 +139,14 @@ Widget courseSummaryTitle(){
           );
 }
 
-var imagesInfoCourse = <String, String>{
-  "36 Hours Video": "video_detail.png",
-  "Total 30 Lessons": "file_detail.png",
-  "67 Downloadable Resources":"download_detail.png",
-};
+Widget courseSummaryView(BuildContext context, CourseDetailStates state){ 
 
-Widget courseSummaryView(BuildContext context){ 
+  var imagesInfoCourse = <String, String>{
+        "${ (state.courseItem != null) ? state.courseItem!.video_length.toString() : '0' } Hours Video": "video_detail.png",
+        "Total ${ (state.courseItem != null) ? state.courseItem!.lesson_num.toString() : '0'} Lessons": "file_detail.png",
+        "${ (state.courseItem != null) ? state.courseItem!.down_num.toString() : '0' } Downloadable Resources":"download_detail.png",
+      };
+
   return Column(
     children: [
 
@@ -182,93 +194,119 @@ Widget courseSummaryView(BuildContext context){
     
       )
 
-
     ],
   );
 }
 
-Widget courseLessonList(){
-  return Container(
-            width: 325.w,
-            height: 80.h,
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.circular(10.w),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: Offset(0,1)
-                            )
-                          ]
-                       ),
-            child: InkWell(
-                    onTap: (){
-                      
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        
-                        // for image and the text
-                        Row(
-                          children: [
-                        
-                            Container(
-                              width: 60.w,
-                              height: 60.h,
-                              decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(15.h),
-                                              image: const DecorationImage(
-                                                              fit: BoxFit.fill,
-                                                              image: AssetImage(
-                                                                        "assets/icons/Image(1).png"
-                                                                        )
-                                                          )
-                                            ),
-                            ),
-                        
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                  _listContainer(fontSize: 13.sp, color: AppColors.primaryText, fontWeight: FontWeight.bold),
-                                  _listContainer(fontSize: 10.sp, color: AppColors.primaryThirdElementText, fontWeight: FontWeight.normal)
-                              ],
-                            )
-                        
-                          ],
-                        ),
-                     
-                        // for showing the right arrow 
-                        Container(
-                          child: Image(
-                            width: 24.w,
-                            height: 24.h,
-                            image: AssetImage("assets/icons/arrow_right.png"),
-                          ),
-                        )
+Widget courseLessonList(CourseDetailStates state){
+  return SingleChildScrollView(
+    child: ListView.builder(
+      shrinkWrap: true,
+      itemCount: state.lessonItem.length,
+      itemBuilder: (context, index) {
 
-                      ],
-                    ),
-            ),
-          );
+        return Container(
+                  margin: EdgeInsets.only(top: 10.h),
+                  width: 325.w,
+                  height: 80.h,
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                borderRadius: BorderRadius.circular(20.w),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 2,
+                                    blurRadius: 3,
+                                    offset: Offset(0,1)
+                                  )
+                                ]
+                             ),
+                  child: InkWell(
+                          onTap: (){
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.LESSON_DETAIL, 
+                              arguments: {
+                               "id" : state.lessonItem[index].id
+                              }
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              
+                              // for image and the text
+                              Row(
+                                children: [
+
+                                  Container(
+                                    width: 60.w,
+                                    height: 60.h,
+                                    decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(15.h),
+                                                    image: DecorationImage(
+                                                              fit: BoxFit.fitHeight,
+                                                              image: NetworkImage(processThumbnailUrl(state.lessonItem[index].thumbnail!)), 
+                                                            )
+                                                  ),
+                                  ),
+                              
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                        _listContainer(
+                                          state.lessonItem[index].name.toString(),
+                                            fontSize: 13.sp, 
+                                            color: AppColors.primaryText, 
+                                            fontWeight: FontWeight.bold
+                                          ),
+
+                                        _listContainer(
+                                          state.lessonItem[index].description.toString(),
+                                            fontSize: 10.sp, 
+                                            color: AppColors.primaryThirdElementText, 
+                                            fontWeight: FontWeight.normal
+                                        )
+                                    ],
+                                  )
+                              
+                                ],
+                              ),
+                           
+                              // for showing the right arrow 
+                              Container(
+                                child: Image(
+                                  width: 24.w,
+                                  height: 24.h,
+                                  image: AssetImage("assets/icons/arrow_right.png"),
+                                ),
+                              )
+        
+                            ],
+                          ),
+                  ),
+                );
+      }
+    ),
+  );
 }
 
-
-Widget _listContainer({required double fontSize, required Color color, required FontWeight fontWeight}){
-    return   Container(
-                width: 200.w,
-                margin: EdgeInsets.only(left: 6.w),
-                child: Text(
-                        "UI Design",
-                        overflow: TextOverflow.clip,
-                        maxLines: 1,
-                        style: TextStyle(color: color, fontSize: fontSize, fontWeight: fontWeight),
-                      ),
-              );
+Widget _listContainer(
+  String name,
+  {required double fontSize, required Color color, required FontWeight fontWeight}
+){
+    return Container(
+              width: 200.w,
+              margin: EdgeInsets.only(left: 6.w),
+              child: Text(
+                      name,
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                      style: TextStyle(color: color, fontSize: fontSize, fontWeight: fontWeight),
+                    ),
+            );
 }
 
 

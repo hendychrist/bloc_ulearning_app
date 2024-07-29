@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison, avoid_print
+
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ulearning_app/common/values/constant.dart';
@@ -45,31 +47,31 @@ class HttpUtil{
                                                         headers: authorization,
                                                       ),
                             );
-
+        
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-          // Do something before request is sent.
-          // If you want to resolve the request with custom data,
-          // you can resolve a `Response` using `handler.resolve(response)`.
-          // If you want to reject the request with a error message,
-          // you can reject with a `DioException` using `handler.reject(dioError)`.
-          return handler.next(options);
+        onResponse: (response, responseInterceptorHandler) async {
+          print('DioObserver - onResponse - ${response.statusCode} - ${response.data.toString()}\n');
+          return responseInterceptorHandler.next(response);
         },
-        onResponse: (Response response, ResponseInterceptorHandler handler) {
-          // Do something with response data.
-          // If you want to reject the request with a error message,
-          // you can reject a `DioException` object using `handler.reject(dioError)`.
-          return handler.next(response);
+        onRequest: (request, requestInterceptorHandler) {
+          print("DioObserver - onRequest - ${request.method} - ${request.path} - ${request.data}");
+          print("DioObserver - onRequest - ${ authorization ?? "authorization is empty" }");
+        
+          // request.headers.addAll({HttpHeaders.authorizationHeader: 'Bearer 156|JnZfLV8MVvDQ4M60Tj0voIMRCL662fYXnQtPFuuW34f8c286'});
+          request.headers.addAll(authorization ?? {HttpHeaders.authorizationHeader: 'Bearer 156|JnZfLV8MVvDQ4M60Tj0voIMRCL662fYXnQtPFuuW34f8c286'});
+
+          return requestInterceptorHandler.next(request);
         },
-        onError: (DioException error, ErrorInterceptorHandler handler) {
-          // Do something with response error.
-          // If you want to resolve the request with some custom data,
-          // you can resolve a `Response` object using `handler.resolve(response)`.
-          return handler.next(error);
+
+        onError: (DioException error, errorInterceptor) {
+          print("DioObserver - onError - ${error.message}");
+
+          return errorInterceptor.next(error);
         },
       ),
     );
+
 
     // print("DEBUG: http_utils.dart -> post() -> STATUS  CODE : ${response.statusCode}");
     // print("DEBUG: http_utils.dart -> post() -> RESPONSE : ${response.toString()}");
@@ -82,10 +84,10 @@ class HttpUtil{
    Map<String,dynamic> getAuthorizationHeader(){
     Map<String,dynamic> header = <String, dynamic>{};
     String accessToken = Global.storageService.getUserToken();
-    String modifiedAccessToken = accessToken.substring(3);
+    // String modifiedAccessToken = accessToken.substring(3);
 
     if(accessToken.isNotEmpty){
-      header['Authorization'] = 'Bearer $modifiedAccessToken';
+      header['Authorization'] = 'Bearer $accessToken';
     }else{
       toastInfo(msg: "getAuthorizationHeader() -> accessToken() is Empty");
     }

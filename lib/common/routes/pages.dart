@@ -6,6 +6,10 @@ import 'package:ulearning_app/pages/application/application_page.dart';
 import 'package:ulearning_app/pages/application/bloc/app_bloc.dart';
 import 'package:ulearning_app/pages/course/course_detail/bloc/course_detail_blocs.dart';
 import 'package:ulearning_app/pages/course/course_detail/course_detail.dart';
+import 'package:ulearning_app/pages/course/lesson/bloc/lesson_blocs.dart';
+import 'package:ulearning_app/pages/course/lesson/lesson_detail.dart';
+import 'package:ulearning_app/pages/course/pay_web_view/bloc/payview_blocs.dart';
+import 'package:ulearning_app/pages/course/pay_web_view/pay_web_view.dart';
 import 'package:ulearning_app/pages/home/home_page.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/profile/settings/bloc/settings_blocs.dart';
@@ -57,8 +61,17 @@ class AppPages{
         page: const CourseDetailPage(),
         bloc: BlocProvider(create: (_) => CourseDetailBlocs()),
       ),
-      
-
+      PageEntity(
+        route: AppRoutes.LESSON_DETAIL,
+        page: const LessonDetail(),
+        bloc: BlocProvider(create: (_) => LessonBlocs()),
+      ),
+      PageEntity(
+        route: AppRoutes.PAY_WEB_VIEW,
+        page: const PayWebView(),
+        bloc: BlocProvider(create: (_) => PayWebViewBlocs()),
+      ),
+  
     ];
   }
 
@@ -100,14 +113,14 @@ class AppPages{
         // if user never open it go to onboarding screen
         return MaterialPageRoute(builder: (_)=> result.first.page, settings: settings);
       }else{
-        print('Hendie - result is empty : $result');
+        print('result is empty : $result');
       }
 
     }else{
-      print('Hendie - settings.name is null : ${settings.name}');
+      print('settings.name is null : ${settings.name}');
     }
 
-   print('Hendie - invalid route name ${settings.name}');
+   print('invalid route name ${settings.name}');
 
    return MaterialPageRoute(builder: (_) => const SignIn(), settings: settings );
   }

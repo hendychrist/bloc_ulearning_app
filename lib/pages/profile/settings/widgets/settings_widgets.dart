@@ -1,10 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/values/colors.dart';
 
-AppBar buildAppBarSettings(){
+/* AppBar buildAppBarSettings(){
   return AppBar(
     centerTitle: true,
     title: Container(
@@ -18,7 +16,7 @@ AppBar buildAppBarSettings(){
       ),
     ),
   );
-}
+} */
 
 Widget settingsButton(BuildContext context, VoidCallback func ){
   return   GestureDetector(

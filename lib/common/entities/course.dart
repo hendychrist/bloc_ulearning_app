@@ -154,8 +154,9 @@ class CourseItem {
   String? price;
   String? amount_total;
   int? lesson_num;
-  int? video_length;
+  int? video_length; // Change to int to match JSON type
   int? id;
+  int? down_num;
 
   CourseItem({
     this.user_token,
@@ -168,6 +169,7 @@ class CourseItem {
     this.lesson_num,
     this.video_length,
     this.id,
+    this.down_num,
   });
 
   factory CourseItem.fromJson(Map<String, dynamic> json) => CourseItem(
@@ -176,11 +178,12 @@ class CourseItem {
         description: json["description"],
         thumbnail: json["thumbnail"],
         video: json["video"],
-        price: json["price"].toString(),
+        price: json["price"].toString(), // Ensure price is a string
         amount_total: json["amount_total"],
-        lesson_num: json["lesson_num"],
-        video_length: json["video_length"],
+        lesson_num: json["lesson_num"], // Ensure lesson_num is an int
+        video_length: json["video_length"] is int ? json["video_length"] : int.tryParse(json["video_length"] ?? '0'), // Ensure video_length is an int
         id: json["id"],
+        down_num: json['downloadable_res'],
       );
 
   Map<String, dynamic> toJson() => {

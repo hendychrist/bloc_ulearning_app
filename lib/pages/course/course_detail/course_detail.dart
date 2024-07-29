@@ -47,67 +47,76 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
 
         // debugPrint('---my items ${state.courseItem.description.toString()}');
 
-        return Container(
-          color: Colors.cyan,
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              appBar: buildAppBarCourse(),
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-          
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-          
-                          // first big image
-                          thumbnail(courseDetailStates: state),
-                          SizedBox(height: 15.h,),
-          
-                          // three buttons or menus 
-                          menuView(),
-                          SizedBox(height: 15.h,),
-          
-                          // course description title
-                          reusableText("Course Description"),
-                          SizedBox(height: 15.h,),
-          
-                          // course description
-                          descriptionText(),
-                          SizedBox(height: 20.h,),
-          
-                          // course buy button
-                          goBuyButton("Go Buy"),
-                          SizedBox(height: 20.h,),
-          
-                          courseSummaryTitle(),
-          
-                          // course summary in list
-                          courseSummaryView(context),
-                          SizedBox(height: 20.h),
-          
-                          // Lesson list title 
-                          reusableText("Lesson List"),
-                          SizedBox(height: 20.h),
-          
-                          courseLessonList()
-                          
-                        ], 
-                      ),
-                    )
-                    
-          
-                  ],
-                ),
-              )
-          
+        return state.courseItem == null
+        ?
+           const Center(child: CircularProgressIndicator(backgroundColor: Colors.blue,))             
+        :
+          Container(
+            color: Colors.cyan,
+            child: SafeArea(
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                appBar: buildAppBar(text: "Course Detail"),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+            
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+            
+                            // first big image
+                            thumbnail(courseDetailStates: state),
+                            SizedBox(height: 15.h,),
+            
+                            // three buttons or menus 
+                            menuView(),
+                            SizedBox(height: 15.h,),
+            
+                            // course description title
+                            reusableText("${state.courseItem?.name}"),
+                            SizedBox(height: 15.h,),
+            
+                            // course description
+                            descriptionText(),
+                            SizedBox(height: 20.h,),
+            
+                            // course buy button
+                            InkWell(
+                              onTap: (){
+                                _courseDetailController.goBuy(state.courseItem!.id);
+                              },
+                              child: goBuyButton("Go Buy")
+                            ),
+                            SizedBox(height: 20.h,),
+            
+                            courseSummaryTitle(),
+            
+                            // course summary in list
+                            courseSummaryView(context, state),
+                            SizedBox(height: 20.h),
+            
+                            // Lesson list title 
+                            reusableText("Lesson List"),
+                            SizedBox(height: 20.h),
+            
+                            courseLessonList(state)
+                            
+                          ], 
+                        ),
+                      )
+                      
+            
+                    ],
+                  ),
+                )
+            
+              ),
             ),
-          ),
-        );
-    
+          );
+      
       }
     );
   

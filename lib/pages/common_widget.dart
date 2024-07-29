@@ -4,8 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 
-AppBar buildAppBar(String type){
+String processThumbnailUrl(String url) {
+  if (url.contains('firebasestorage')) {
+    return url.replaceFirst('http://10.64.66.167:8000/uploads/', '');
+  }
+
+  debugPrint('Hendie - url : $url');
+  return url;
+}
+
+AppBar buildAppBar(String type, {void Function()? onPressed}){
   return AppBar(
+              leading: (type.contains('Detail'))
+                        ?
+                          IconButton(
+                                    icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                                    onPressed: onPressed
+                                  )
+                        :
+                          null,
             centerTitle: true,
             title: Text(
                     "$type",
@@ -54,15 +71,15 @@ Widget _reusableIcon(String iconname){
   );
 }
 
-Widget reusableText(String text){
+Widget reusableText(String text, {Color? color, FontWeight? fontWeight, double? fontSize}){
   return Container(
     margin: EdgeInsets.only(bottom: 5.h),
     child: Text(
       text,
       style: TextStyle(
-        color: Colors.grey.withOpacity(0.5),
-        fontWeight: FontWeight.normal,
-        fontSize: 14.sp,
+        color: color ?? Colors.grey.withOpacity(0.5),
+        fontWeight: fontWeight ?? FontWeight.normal,
+        fontSize: fontSize ?? 14.sp,
       ),
     ),
   );

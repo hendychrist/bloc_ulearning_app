@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   void initState(){
     super.initState();
     
-
     // _homeController = HomeController(context: context);
     // _homeController.init();
 
@@ -52,90 +51,90 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: buildAppBar(avatar: userProfile.avatar.toString()),
-        body: BlocBuilder<HomePageBlocs, HomePageStates>(
-          builder: (context, state) {
-            
-            debugPrint('Hendie -');
-            debugPrint('Hendie - Home_page');
-            debugPrint("Hendie - ${state.courseItem }");
-            debugPrint('Hendie -');
-
-            if(state.courseItem.isEmpty){
-              HomeController(context: context).init();
-              print("Hendie - state.course EMPTY ..");
-            }else{
-              print("Hendie - state.course is NOT EMPTY ..");
-            }
-
-            return Container(
-                    color: Colors.transparent,
-                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25.w),
-                    child: CustomScrollView(    
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      slivers: [
-             
-                        SliverToBoxAdapter(
-                          child: homePageText('Hello', top: 20, color: AppColors.primaryThirdElementText, bot: 0)
-                        ),
-                      
-                        SliverToBoxAdapter(
-                          child: homePageText(
-                                  userProfile.name ?? "name is empty",
-                                  top: 0,
-                                  bot: 20
-                                )
-                        ),
-
-                        SliverToBoxAdapter(
-                          child: searchView()
-                        ),
-
-                        SliverToBoxAdapter(
-                          child: slidersView(context, state)
-                        ),
-
-                        SliverToBoxAdapter(
-                          child: menuView()
-                        ),
-
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                                      vertical: 18.h,
-                                      horizontal: 0.w
-                                    ),
-                          sliver: SliverGrid(
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 2,
-                                                    mainAxisSpacing: 15,
-                                                    crossAxisSpacing: 15,
-                                                    childAspectRatio: 1.6
+        body: RefreshIndicator(
+          onRefresh: () async {
+            return HomeController(context: context).init();
+          },
+          child: BlocBuilder<HomePageBlocs, HomePageStates>(
+            builder: (context, state) {
+          
+              if(state.courseItem.isEmpty){
+                HomeController(context: context).init();
+                // print("Hendie - state.course EMPTY ..");
+              }else{
+                // print("Hendie - state.course is NOT EMPTY ..");
+              }
+          
+              return Container(
+                      color: Colors.transparent,
+                      margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25.w),
+                      child: CustomScrollView(    
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        slivers: [
+               
+                          SliverToBoxAdapter(
+                            child: homePageText('Hello', top: 20, color: AppColors.primaryThirdElementText, bot: 0)
+                          ),
+                        
+                          SliverToBoxAdapter(
+                            child: homePageText(
+                                    userProfile.name ?? "name is empty",
+                                    top: 0,
+                                    bot: 20
+                                  )
+                          ),
+          
+                          SliverToBoxAdapter(
+                            child: searchView()
+                          ),
+          
+                          SliverToBoxAdapter(
+                            child: slidersView(context, state)
+                          ),
+          
+                          SliverToBoxAdapter(
+                            child: menuView()
+                          ),
+          
+                          SliverPadding(
+                            padding: EdgeInsets.symmetric(
+                                        vertical: 18.h,
+                                        horizontal: 0.w
+                                      ),
+                            sliver: SliverGrid(
+                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2,
+                                                      mainAxisSpacing: 15,
+                                                      crossAxisSpacing: 15,
+                                                      childAspectRatio: 1.6
+                                                    ),
+                                      delegate: SliverChildBuilderDelegate(
+                                                    childCount: state.courseItem.length,
+                                                    (BuildContext context, int index){
+                                                        return GestureDetector(
+                                                          onTap: (){
+          
+                                                            Navigator.of(context).pushNamed(
+                                                              AppRoutes.COURSE_DETAIL,
+                                                              arguments: {
+                                                                "id": state.courseItem.elementAt(index).id
+                                                              }
+                                                            );
+          
+                                                          }, 
+                                                          child: courseGrid(state.courseItem[index]),
+                                                        );
+                                                    }
                                                   ),
-                                    delegate: SliverChildBuilderDelegate(
-                                                  childCount: state.courseItem.length,
-                                                  (BuildContext context, int index){
-                                                      return GestureDetector(
-                                                        onTap: (){
-
-                                                          Navigator.of(context).pushNamed(
-                                                            AppRoutes.COURSE_DETAIL,
-                                                            arguments: {
-                                                              "id": state.courseItem.elementAt(index).id
-                                                            }
-                                                          );
-
-                                                        }, 
-                                                        child: courseGrid(state.courseItem[index]),
-                                                      );
-                                                  }
-                                                ),
-                                  ),
-                        )
-            
-                      ],
-                    ), 
-                    
-                  );
-          }
+                                    ),
+                          )
+              
+                        ],
+                      ), 
+                      
+                    );
+            }
+          ),
         ),
       ),
     )

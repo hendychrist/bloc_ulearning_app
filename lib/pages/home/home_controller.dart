@@ -34,22 +34,26 @@ class HomeController{
         if(result.code == 200){ 
           if(result.data == null || result.data!.isEmpty){
             toastInfo(msg: 'home_controller.dart - result.data is Empty');
+            return;
           }else{
-            print('Hendie - the result is ${result.data}');
+            print('the result is ${result.data}');
 
             if(context.mounted){
               context.read<HomePageBlocs>().add(HomePageCourseItem(result.data!));
+              return;
             }else{
               toastInfo(msg: 'home_controller.dart -> 38 -> context not mounted');
+              return;
             }
           }
         }else{
-          debugPrint('Hendie - ${result.code}');
+          debugPrint('DEBUG: ERROR - CourseAPI.courseList() != 200 : ${result.code}');
+          return;
         }
     }else{
       print('User has already log out');
     }
-
+    return;
   }
 
 }

@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/application/bloc/app_bloc.dart';
 import 'package:ulearning_app/pages/application/bloc/app_events.dart';
+import 'package:ulearning_app/pages/common_widget.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_events.dart';
 import 'package:ulearning_app/pages/profile/settings/bloc/settings_blocs.dart';
@@ -35,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBarSettings(),
+      appBar: buildAppBar('Settings'),
       body: SingleChildScrollView(
         child: BlocBuilder<SettingsBlocs, SettingsState>(
           builder: (context, state){
@@ -45,8 +47,9 @@ class _SettingsPageState extends State<SettingsPage> {
             }
 
             return Container(
-              color: Colors.pink,
-                child: settingsButton(context, removeUserData),
+              color: Colors.white,
+              height: 712.h,
+              child: Center(child: settingsButton(context, removeUserData)),
             );
 
           },

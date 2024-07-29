@@ -29,7 +29,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
         }
 
         return Container(
-          color: Colors.pink,
+          color: Colors.white,
           child: SafeArea(
             child: Scaffold(
               body: buildPage(state.index),
