@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ulearning_app/common/apis/user_api.dart';
 // import 'package:ulearning_app/common/apis/user_api.dart';
 import 'package:ulearning_app/common/entities/user.dart';
@@ -15,16 +16,10 @@ import 'package:ulearning_app/pages/home/home_controller.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_blocs.dart';
 
 class SignInController{
-  final BuildContext context;
+  final BuildContext context; 
 
-  const SignInController({required this.context});
-
-  //  Future<User> performSignIn(String email, String password) async {
-  //   final FirebaseAuth auth = FirebaseAuth.instance;
-  //   UserCredential result = await auth.signInWithEmailAndPassword(email: email, password: password);
-  //   final User? user = result.user;
-  //   return user!;
-  // }
+  SignInController({required this.context});
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<String> handleSignIn(String type) async {
     try{ 
@@ -128,6 +123,67 @@ class SignInController{
           // debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get credential : $e');
         }
       }
+
+      if(type == "google"){
+        try{
+          final user = await _googleSignIn.signIn();
+
+            if(user == null){
+              toastInfo(msg: "User doesn't exist");
+              return 'User doesn\'t exist';
+            }
+
+              // Create a model from below information to database. and we should send json object
+              String? displayName = user.displayName;
+              String? email = user.email;
+              String? id = user.id;
+              String? photoUrl = user.photoUrl ?? "${AppConstants.SERVER_API_URL}uploads/default.png";
+
+              debugPrint("DEBUG: Google SignIn - photoUrl : ${user.photoUrl}");
+
+              // Input value to model 
+              LoginRequestEntity loginRequestEntity = LoginRequestEntity();
+              
+              loginRequestEntity.avatar = photoUrl;
+              loginRequestEntity.name = displayName;
+              loginRequestEntity.email = email;
+              loginRequestEntity.open_id = id;
+
+              // type one is email login 
+              loginRequestEntity.type = 2;
+
+              if(context.mounted){
+                 HomeController(context: context).init();
+              }
+
+              await asyncPostAllData(loginRequestEntity);
+
+              // return 'user exist';
+         
+ 
+        }on FirebaseAuthException catch (e){
+
+          if(e.code == 'user-not-found'){ 
+            toastInfo(msg: "No user found for that email");
+            return 'No user found for that email';
+          }else if(e.code == 'wrong-password'){
+            toastInfo(msg: "Wrong password provided for that user");
+            return 'Wrong password provided for that user';
+          }else if(e.code == 'invalid-email'){
+            toastInfo(msg: "Your email address format is wrong");
+            return 'Your email address format is wrong';
+          }else{
+            toastInfo(msg: "${e.message}");
+
+            print('DEBUG: ERROR : on FirebaseAuthException catch (e)');
+            print('DEBUG: ${e.message}');
+
+            return '${e.message}';
+          }
+
+        }
+      }
+
       return 'Unexpected error occurred during sign-in.';
     }catch(e){
       debugPrint('DEBUG: ERROR - sign_in_controller.dart - handleSignIn() -> when get state of SignInBloc : $e');

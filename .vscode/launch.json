@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "name": "ulearning [DEV]",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "lib/main_development.dart",
+      "args": ["--flavor", "dev", "--target", "lib/main_development.dart"]
+    },
+    {
+      "name": "ulearning [PRODUCTION]",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "lib/main_production.dart",
+      "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
+    }
+  ]
+}

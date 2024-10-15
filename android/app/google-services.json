@@ -12,7 +12,20 @@
           "package_name": "com.ulearning.ulearning_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "347806436142-971m29ch3g8bck8t6pptjcg7m2ip6jco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ulearning.ulearning_app",
+            "certificate_hash": "30a898fea357c06a0f444aef165cc0d2b59f15eb"
+          }
+        },
+        {
+          "client_id": "347806436142-f5irds6ll031042i0d0dksrkd42m8cva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCO3_IEtEWLbbqonUydgNqNIuDgHKBMgVg"
@@ -20,7 +33,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347806436142-f5irds6ll031042i0d0dksrkd42m8cva.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "347806436142-2bfj0sgaaneglvsag11nqscae2u2g0dq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ulearning.ulearningApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347806436142:android:7e12dba24ca40820b288bf",
+        "android_client_info": {
+          "package_name": "com.ulearning.ulearning_app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347806436142-f5irds6ll031042i0d0dksrkd42m8cva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO3_IEtEWLbbqonUydgNqNIuDgHKBMgVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347806436142-f5irds6ll031042i0d0dksrkd42m8cva.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "347806436142-2bfj0sgaaneglvsag11nqscae2u2g0dq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ulearning.ulearningApp"
+              }
+            }
+          ]
         }
       }
     }

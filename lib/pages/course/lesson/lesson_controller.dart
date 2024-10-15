@@ -80,6 +80,7 @@ class LessonController{
 
       context.read<LessonBlocs>().add(TriggerUrlItem(initPlayer));
       context.read<LessonBlocs>().add(TriggerPlay(true));
+      videoPlayerController?.play();
     }
   }
 

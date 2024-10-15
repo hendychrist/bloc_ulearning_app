@@ -15,17 +15,26 @@ import 'package:video_player/video_player.dart';
 import 'package:ulearning_app/pages/common_widget.dart';
 
 Widget videoPlayer(LessonStates state, LessonController lessonController){
-  return  Container(
+
+  print('my video item length is : ${state.lessonVideoItem.length}');
+  print('my video index is : ${state.videoIndex}');
+
+  return state.lessonVideoItem.isEmpty 
+  ?
+    Container()
+  :
+    Container(
             width: 325.w,
             height: 200.h,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(20.h),
-              image: const DecorationImage(
-                image: AssetImage(
-                          "assets/icons/video.png" 
+              image:  DecorationImage(
+                          image: NetworkImage(
+                                    state.lessonVideoItem[state.videoIndex].thumbnail!,
+                                  ),
+                          fit: BoxFit.fitWidth
                         )
-              )
             ),
             child: FutureBuilder(
               future: state.initializeVideoPlayerFuture,
@@ -224,19 +233,19 @@ Widget _buildLessonItems(BuildContext context, int index, LessonVideoItem item, 
               width: 60.h,
               height: 60.h,
               decoration: BoxDecoration(
-                color: Colors.cyanAccent,
+                color: Colors.yellow,
                 borderRadius: BorderRadius.circular(10.w),
                 image: DecorationImage(
-                  fit: BoxFit.fitHeight,
-                  image: NetworkImage(processThumbnailUrl("${item.thumbnail}")), 
-                )
+                          fit: BoxFit.fitHeight,
+                          image: NetworkImage(processThumbnailUrl("${item.thumbnail}")), 
+                        )
               ),
             ),
 
             Expanded(
               child: Container(
                 height: 60.h,
-                color: Colors.green,
+                color: Colors.transparent,
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 10.w),
                 child: Row(
@@ -263,12 +272,17 @@ Widget _buildLessonItems(BuildContext context, int index, LessonVideoItem item, 
                         }
 
                       },
-                      child: reusableText(
-                        "Play", 
-                        color: Colors.black, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.sp
-                      ),
+                      child: Image.asset(
+                                width: 24.w,
+                                height: 24.h,
+                                "assets/icons/play-circle.png"
+                              )
+                           /*  reusableText(
+                                "Play", 
+                                color: Colors.black, 
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13.sp
+                              ), */
                     ),
 
                   ],

@@ -44,7 +44,7 @@ class RegisterController{
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
         if(credential.user != null){
-          await credential.user?.sendEmailVerification();
+          await credential.user?.sendEmailVerification(); 
           await credential.user?.updateDisplayName(username);
 
           String photoUrl = "uploads/default.png";

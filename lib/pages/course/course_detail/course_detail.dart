@@ -52,7 +52,7 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
            const Center(child: CircularProgressIndicator(backgroundColor: Colors.blue,))             
         :
           Container(
-            color: Colors.cyan,
+            color: Colors.transparent,
             child: SafeArea(
               child: Scaffold(
                 backgroundColor: Colors.white,

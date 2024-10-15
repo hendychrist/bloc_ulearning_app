@@ -75,7 +75,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
                   ),
             
                   Positioned(
-                    bottom: 100.h,
+                    bottom: 60.h,
                     child: DotsIndicator(
                               position: state.page.toInt(),
                               dotsCount: 3,
@@ -110,7 +110,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
                 Container(
                   color: Colors.transparent,
                   width: 345.w,
-                  height: 345.h,
+                  height: 450.h,
                   alignment: Alignment.center,
                   child: Image.asset(
                           imagePath,

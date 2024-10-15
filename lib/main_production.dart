@@ -5,13 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/constants/flavours_constant.dart';
 import 'package:ulearning_app/global.dart';
-
 import 'common/routes/routes.dart';
 import 'pages/application/bloc/app_bloc.dart';
 import 'pages/application/bloc/app_states.dart';
 
-Future<void> main() async{
+Future<void> main() async {
+  FlavorConfig(
+    flavor: Flavor.PRODUCTION,
+    values: FlavorValues(
+              baseApiUrl: 'https://api.ulearning.com',
+            ),
+  );
   await Global.init();
   runApp(const MyApp());
 }
@@ -24,6 +30,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
               providers: [...AppPages.allBlocProviders(context)],
               child: ScreenUtilInit(
+                        minTextAdapt: true,
                         designSize: const Size(375, 812),
                         builder: (context, child) {
                           return MaterialApp(
@@ -43,7 +50,6 @@ class MyApp extends StatelessWidget {
           );
   }
 }
-
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key:key);

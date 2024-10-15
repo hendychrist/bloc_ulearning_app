@@ -26,7 +26,7 @@ class _LessonDetailState extends State<LessonDetail> {
     _lessonController = LessonController(context: context);
 
     // have to set url to null. unless it will create the url and a lot of wired thing will happen
-    context.read<LessonBlocs>().add( const TriggerUrlItem(null)); // restart everything
+    context.read<LessonBlocs>().add(const TriggerUrlItem(null)); // restart everything
     context.read<LessonBlocs>().add(const TriggerVideoIndex(0));
 
     _lessonController.init();

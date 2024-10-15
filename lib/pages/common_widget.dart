@@ -3,13 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-
+import 'package:ulearning_app/common/values/constant.dart';
+import 'package:ulearning_app/pages/sign_in/sign_in_controller.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
+ 
 String processThumbnailUrl(String url) {
   if (url.contains('firebasestorage')) {
-    return url.replaceFirst('http://10.64.66.167:8000/uploads/', '');
-  }
+    return url.replaceFirst('${AppConstants.SERVER_API_URL}uploads/', '');
+  } 
 
-  debugPrint('Hendie - url : $url');
   return url;
 }
 
@@ -52,17 +54,19 @@ Widget buildThirdPartyLogin(BuildContext ctx){
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _reusableIcon("google"),
-        _reusableIcon("apple"),
-        _reusableIcon("facebook"),
+        _reusableIcon("google", ctx),
+        _reusableIcon("apple", ctx),
+        _reusableIcon("facebook", ctx),
       ],
     )
   );
 }
 
-Widget _reusableIcon(String iconname){
+Widget _reusableIcon(String iconname, BuildContext context){
   return GestureDetector(
-    onTap: (){},
+    onTap: (){
+      SignInController(context: context).handleSignIn("google");
+    },
      child: SizedBox(
         width: 40.w,
         height: 40.w,
@@ -153,14 +157,14 @@ Widget buildTextField(String hintText, String textType, String iconName, void Fu
   );
 }
 
-Widget forgotPassword(){
+Widget forgotPassword({required BuildContext context}){
   return Container(
     width: 260.w,
     height: 44.h,
     // margin: EdgeInsets.only(left: 25.w),
     child: InkWell(
       onTap: (){
-
+        fui.showForgotPasswordScreen(context: context);
       },
       child: Text(
         "Forgot Password",

@@ -263,13 +263,14 @@ Widget _reusableMenuText({String menuText = 'Default Text', Color backgroundColo
 }
 
 Widget courseGrid(CourseItem item){
+
     return Container(
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.w),
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image:  NetworkImage(item.thumbnail.toString()),
+                image:  NetworkImage("${AppConstants.SERVER_API_URL}uploads/${item.thumbnail.toString()}"),
               )
             ),
             

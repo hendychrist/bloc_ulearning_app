@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widget/base_text_widget.dart';
 import 'package:ulearning_app/pages/course/course_detail/bloc/course_detail_states.dart';
 
@@ -15,10 +16,9 @@ AppBar buildAppBar({required String text}){
 
 String processThumbnailUrl(String url) {
   if (url.contains('firebasestorage')) {
-    return url.replaceFirst('http://10.64.66.167:8000/uploads/', '');
+    return url.replaceFirst('${AppConstants.SERVER_API_URL}uploads/', '');
   }
 
-  debugPrint('Hendie - url : $url');
   return url;
 }
 
@@ -32,7 +32,7 @@ Widget thumbnail({required CourseDetailStates courseDetailStates}) {
               ? 
                 DecorationImage(
                   fit: BoxFit.fitHeight,
-                  image: NetworkImage(courseDetailStates.courseItem!.thumbnail!), 
+                  image: NetworkImage("${AppConstants.SERVER_API_URL}uploads/${courseDetailStates.courseItem!.thumbnail}"),
                 )
               :
                 null, 
@@ -224,12 +224,25 @@ Widget courseLessonList(CourseDetailStates state){
                              ),
                   child: InkWell(
                           onTap: (){
-                            Navigator.of(context).pushNamed(
-                              AppRoutes.LESSON_DETAIL, 
-                              arguments: {
-                               "id" : state.lessonItem[index].id
-                              }
-                            );
+                            
+                            /* 
+                            if(state.checkBuy == true){
+                              
+                            }else{
+                              toastInfo(msg: "Please buy this course before you watch");
+                            }
+
+                            debugPrint("DEBUG: ERROR - my image path is ${state.lessonItem[index].thumbnail}");
+                             */
+
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.LESSON_DETAIL, 
+                                arguments: {
+                                "id" : state.lessonItem[index].id
+                                }
+                              );
+                            
+
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

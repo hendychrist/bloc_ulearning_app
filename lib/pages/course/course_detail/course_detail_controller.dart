@@ -86,7 +86,7 @@ class CourseDetailController {
       }
      // print('----my returned stripe url is $url--------');
     }else{
-      toastInfo(msg: result.msg!);
+      toastInfo(msg: result.msg ?? "result.msg is null");
     }
   }
 
